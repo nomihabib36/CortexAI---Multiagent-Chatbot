@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { useReducer } from "react";
+
 
 const userSchema = new mongoose.Schema({
     firebaseUid:{
@@ -14,4 +14,6 @@ const userSchema = new mongoose.Schema({
         timestamps: true
     })
 
-export const User = mongoose.model("User",userSchema)
+const User = mongoose.model("User",userSchema)
+
+export default User
