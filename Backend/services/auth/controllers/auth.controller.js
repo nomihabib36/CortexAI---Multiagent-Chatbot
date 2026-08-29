@@ -1,6 +1,7 @@
 import { getAuth } from "firebase-admin/auth";
 import {app} from '../config/firebase.js'
 import User from '../models/user.model.js'
+import redis from '../../../shared/redis/redis.js'
 
 
 export const login = async (req,res)=>{
@@ -23,7 +24,7 @@ export const login = async (req,res)=>{
         }
         
         const sessionId = crypto.randomUUID()
-
+        redis
 
         res.cookie("session", sessionId,{
             httpOnly: true,
