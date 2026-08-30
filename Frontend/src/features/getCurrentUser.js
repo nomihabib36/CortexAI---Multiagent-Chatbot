@@ -1,5 +1,6 @@
 import api from "../../utils/axios.js";
 
+// Fetch Current User
 const getCurrentUser = async () => {
     try {
         const {data} = await api.get("/api/me")
