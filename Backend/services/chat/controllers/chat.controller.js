@@ -16,7 +16,7 @@ export const createConversation = async (req,res)=>{
         
         
     } catch (error) {
-        return res.status(500).json({createConversationError:error})
+        return res.status(500).json({createConversationError:'${error}'})
     }
 }
 
@@ -35,7 +35,7 @@ export const getConversations = async (req,res)=>{
         
         
     } catch (error) {
-        return res.status(500).json({getConversationError:error})
+        return res.status(500).json({getConversationError:'${error}'})
     }
 }
 export const updateConversation = async (req,res)=>{
@@ -52,7 +52,7 @@ export const updateConversation = async (req,res)=>{
         
         
     } catch (error) {
-        return res.status(500).json({updateConversationError:error})
+        return res.status(500).json({updateConversationError:'${error}'})
     }
 }
 
@@ -73,25 +73,22 @@ export const saveMessage = async (req,res)=>{
         
         
     } catch (error) {
-        return res.status(500).json({saveMessageError:error})
+        return res.status(500).json({saveMessageError:'${error}'})
     }
 }
 
 export const getMessages = async (req,res)=>{
     try {
-        //get conversation id from params
-        const conversationId = req.params.conversatinId
-
-
+        
         //Save Message
         const messages = await Message.find({
-            conversationId,
+            conversationId:req.params.conversationId
         }).sort({createdAt:-1})
 
         return res.status(200).json({message:`get Message Successfull ${messages}`})
         
         
     } catch (error) {
-        return res.status(500).json({getMessagesError:error})
+        return res.status(500).json({getMessagesError:'${error}'})
     }
 }
