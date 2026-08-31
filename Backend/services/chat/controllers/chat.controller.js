@@ -5,7 +5,7 @@ export const createConversation = async (req,res)=>{
     try {
         //get userid from header
         const userId = req.headers["x-user-id"]
-        console.log(userId);
+        console.log(`userId = ${userId}`);
 
         //create conversation with user id
         const conversation = await Conversation.create({
