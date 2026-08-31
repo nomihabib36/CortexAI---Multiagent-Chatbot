@@ -1,13 +1,19 @@
 import React, { useEffect } from "react"
 import Home from "./pages/Home"
 import getCurrentUser from "./features/getCurrentUser"
+import {useDispatch} from 'react-redux'
+import { setUserData } from "./redux/store/userSlice"
 function App() {
 
-
-  //
+  const dispatch = useDispatch()
+  
   useEffect(()=>{
+    //fetch current user data in refresh
     const getUser = async () =>{
-      await getCurrentUser()
+      const data = await getCurrentUser()
+      
+      // update user data from redux
+      dispatch(setUserData(data))
     }
     getUser()
   },[]);
