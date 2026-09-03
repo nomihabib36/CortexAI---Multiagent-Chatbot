@@ -1,11 +1,14 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import connectDB from './config/db.js';
+import router from './routers/agent.route.js';
+import dotenv from 'dotenv';
 dotenv.config()
 
 
 const port = process.env.PORT
+
 const app = express();
+app.use("/", router)
 
 app.get("/",(req,res)=>{
     try {
