@@ -1,4 +1,5 @@
 import { getModel } from "../config/llmModel.js";
+
 export const chatAgent = async (state) => {
   const llm = await getModel("chat");
   const systemPrompt = `You are CortexAi, an Intelligent AI assistant`;

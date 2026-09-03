@@ -3,6 +3,7 @@ import Home from "./pages/Home"
 import getCurrentUser from "./features/getCurrentUser"
 import {useDispatch} from 'react-redux'
 import { setUserData } from "./redux/store/userSlice"
+import Sidebar from "./components/SideBar"
 function App() {
 
   const dispatch = useDispatch()
@@ -22,6 +23,8 @@ function App() {
   return (
     <>
     <Home/>
+   
+    
     </>
   )
 }
