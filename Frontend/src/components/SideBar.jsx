@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { PanelLeftIcon, PenSquare, Plus } from 'lucide-react'
 import { useDispatch } from 'react-redux';
-// import  {} from '../features/'
+import  {getConversations} from '../features/getConversations.js'
+import  {setConversation} from '../redux/store/conversationSlice.js'
 export default function Sidebar() {
 
 
@@ -11,10 +12,13 @@ const [collapsed, setCollapsed] = useState(false);
 //for fetching Data
 const dispatch = useDispatch()
 useEffect(()=>{
-  const getConversations = async () =>{
-    
+  const getConv = async () =>{
+    const {data} = await getConversations()
+
+      dispatch(setConversation(data))
   }
-})
+  getConv()
+},[])
 
 
 
