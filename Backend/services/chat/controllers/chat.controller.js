@@ -12,7 +12,7 @@ export const createConversation = async (req,res)=>{
             userId: userId
         })
 
-        return res.status(200).json({message:`create Conversation Successfull ${conversation}`})
+        return res.status(200).json(conversation)
         
         
     } catch (error) {
@@ -31,7 +31,7 @@ export const getConversations = async (req,res)=>{
             userId: userId
         }).sort({updatedAt:-1})
 
-        return res.status(200).json({message:`Fetching Conversations ${conversations}`})
+        return res.status(200).json(conversations)
         
         
     } catch (error) {

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const conversationSlice = createSlice({
-    name: "conversations",
+    name: "conversation",
 
     initialState:{  
         conversations:[],
-        selectedConversation: null
+        // selectedConversation: null
     },
 
     reducers:{
@@ -19,13 +19,13 @@ const conversationSlice = createSlice({
             state.conversations.unshift(action.payload)
         },
         //filter selected Conv
-        setSelectedConversation:(state, action)=>{
-            state.selectedConversation = action.payload
-        }
+        // setSelectedConversation:(state, action)=>{
+        //     state.selectedConversation = action.payload
+        // }
     }
     
 })
 
-export const {setConversation, addConversation, selectedConversation} = conversationSlice.actions
+export const {setConversation, addConversation} = conversationSlice.actions
 
 export default conversationSlice.reducer

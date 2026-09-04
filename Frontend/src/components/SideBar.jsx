@@ -2,23 +2,42 @@ import React, { useEffect, useState } from 'react'
 import { PanelLeftIcon, PenSquare, Plus } from 'lucide-react'
 import { useDispatch } from 'react-redux';
 import  {getConversations} from '../features/getConversations.js'
-import  {setConversation} from '../redux/store/conversationSlice.js'
+import  {createConversation} from '../features/createConversation.js'
+import  {addConversation, setConversation} from '../redux/store/conversationSlice.js'
+import { create } from 'axios';
 export default function Sidebar() {
 
 
   //sidebar state
 const [collapsed, setCollapsed] = useState(false);
 
-//for fetching Data
-const dispatch = useDispatch()
+
+// // create Conv
+// const handleCreateConv = async()=>{
+//     const {data} = await createConversation()
+//     dispatch(addConversation(data))
+//   }
+  
+  //for fetching Data
+  const dispatch = useDispatch()
 useEffect(()=>{
   const getConv = async () =>{
-    const {data} = await getConversations()
+    const data = await getConversations()
+    console.log(data);
+    
+    dispatch(setConversation(data))
+    
 
-      dispatch(setConversation(data))
   }
   getConv()
 },[])
+
+const handleCreateConv = async ()=>{
+  const data = await createConversation()
+  console.log(data);
+  
+  dispatch(addConversation(data))
+}
 
 
 
@@ -45,7 +64,7 @@ useEffect(()=>{
                 </span>
                     {/* newChat icon */}
                 <button className='flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-color duration-150 bg-transparent border-none cursor-pointer ' >
-                  <PenSquare size={14}/> 
+                  <PenSquare size={14} onClick={handleCreateConv}/> 
                 </button>
 
             </div>
