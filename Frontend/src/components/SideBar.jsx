@@ -67,7 +67,9 @@ const handleCreateConv = async ()=>{
             </div>
                 {/* New Chat button */}
           <div className='px-4 pt-4 pb-1'>
-                  <button className='w-full flex items-center justify-center gap-2 text-sm font-medium text-white bg-linear-to-br from-indigo-500 to-violet-700 rounded-xl py-[10px] border-none cursor-pointer hover:opacity-90 transition-opacity duration-150 '>
+                  <button 
+                  onClick={handleCreateConv}
+                  className='w-full flex items-center justify-center gap-2 text-sm font-medium text-white bg-linear-to-br from-indigo-500 to-violet-700 rounded-xl py-[10px] border-none cursor-pointer hover:opacity-90 transition-opacity duration-150 '>
                   <Plus size={15}/>
                   New Chat
                   </button>
