@@ -10,11 +10,18 @@ export default function Sidebar() {
 
   //sidebar state
 const [collapsed, setCollapsed] = useState(false);
-
+  //error in image state
+const [imageError, setImageError] = useState(false)
   
-  //for fetching Data
-  const dispatch = useDispatch()
-  const {conversations, selectedConversation} = useSelector(state => state.conversation)
+const dispatch = useDispatch()
+
+// Get conversations from Redux state 
+const {conversations, selectedConversation} = useSelector(state => state.conversation)
+
+// Get User data from Redux state 
+const {userData} = useSelector(state => state.user)
+
+
 useEffect(()=>{
   const getConv = async () =>{
     const data = await getConversations()
@@ -24,7 +31,7 @@ useEffect(()=>{
 
   }
   getConv()
-},[])
+},[userData?._id])
 
 //create COnversation and handle
 const handleCreateConv = async ()=>{
@@ -78,21 +85,21 @@ const handleCreateConv = async ()=>{
                 {/* Conversation */}
                 {conversations.length == 0 ? 
                 //When No Conversation
-                <div className='px-5 pt-4 pb-1.5 text=[10.5px] font-semibold uppercase tracking-widest text-slate-600'>
+          <div className='px-5 pt-4 pb-1.5 text=[10.5px] font-semibouppercase tracking-widest text-slate-600'>
 
                     No Recent Conversation
-                </div>
-                :
-                //When any Conversation
-                (
+          </div>
+          :
+          // When any Conversation
+          (
                   
                   <div className='px-5 pt-4 pb-1.5 text=[10.5px] font-semibold uppercase tracking-widest text-slate-600'>
                 Recents
           </div>
-                )}
+          )}
 
-                {/* Conversation List UI*/}
-                <div className='flex-1 overflow-y-auto px-2.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
+          {/* Conversation List UI*/}
+          <div className='flex-1 overflow-y-auto px-2.5 pb[scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
                     {conversations.map((conv, i)=>{
 
                       const isActive = selectedConversation?._id==conv?._id
@@ -115,9 +122,51 @@ const handleCreateConv = async ()=>{
                       )
                     })}
 
-                </div>     
+          </div>    
 
-        
+          {/* Footer Line */}
+          <div className='mx-2.5 h-px bg-white'></div>
+          {/* Footer */}
+          <div className='px-3.5 py-3.5'>
+            {/* use User Data to add user detail in footer */}
+
+                    {/* Condition When user is login then show user data */}
+                    {userData ? (
+                      <div className='flex items-center gap-2.5 cursor-pointer rounded-xl px-3 py-2.5 hover:bg-white/[0.05] transition-colors duration-150'>
+
+                        {/* User Image */}
+                        <div className='relative shrink-0'>
+                          {(userData?.avatar && !imageError) ? 
+                        <img
+                          className='w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25'
+                          src={userData?.avatar}
+                          alt={"image"}
+                          onError={()=>setImageError(true)} />
+                      :
+                        <div className='w-9 h-9 rounded-[10px] bg-white/[0.06] flex items-center justify-center '>
+                          <user size={15} className="text-slate-100"/>
+                        </div>  
+                      } 
+                        </div>
+                        {/* User Name and Plan*/}
+                        <div className='flex-1 min-w-0'>
+                          <p className='text-[13.5px] font-semibold text-slate-100 truncate '>
+                            {userData?.name || "user"}
+                            </p>
+                          <p className='text-[11px] text-slate-600 mt-px'>
+                            {"Free Plan  "}
+                            </p>
+
+                        </div>
+                      </div>
+                    )
+                    :
+                    // When User in not Logedin then show login button
+                    <button className=''>
+                      Login
+                    </button>
+                  }
+          </div>
         </div>
     </div>
   )
