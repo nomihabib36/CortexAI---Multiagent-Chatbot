@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { MessageSquare, PanelLeftIcon, PenSquare, Plus } from 'lucide-react'
+import { Coins, LogOut, MessageSquare, PanelLeftIcon, PanelRight, PenSquare, Plus } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux';
 import  {getConversations} from '../features/getConversations.js'
 import  {createConversation} from '../features/createConversation.js'
 import  {addConversation, setConversation, setSelectedConversation} from '../redux/store/conversationSlice.js'
+import  {setUserData} from '../redux/store/userSlice.js'
+import logout from '../features/logout.js';
 
 export default function Sidebar() {
 
@@ -43,6 +45,35 @@ const handleCreateConv = async ()=>{
 
 
 
+if(collapsed){
+  return (
+    <div className='hidden lg:flex flex-col items-center w-[56px] h-screen bg-[#0d0f14] border-r border-white/[0.06] py-4 gap-1 shrink-0'>
+      {/* Panel Button */}
+      <button
+      onClick={()=>setCollapsed(false)}
+      className='flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1'>
+        <PanelRight/>
+      </button>
+      {/* New Chat Button */}
+      <button 
+      onClick={handleCreateConv}
+      className='flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer'>
+        <Plus size={17}/>
+      </button>
+      {/* Conversation icon */}
+      <button 
+      
+      className='flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1'>
+
+      </button>
+      {/* image icon */}
+      <button className=''>
+
+      </button>
+    </div>
+    
+  )
+}
 
 
   return (
@@ -158,11 +189,24 @@ const handleCreateConv = async ()=>{
                             </p>
 
                         </div>
+                        {/* Credit & Logout Button */}
+                        <div className='flex gap-1'>
+                          {/* Credit Button */}
+                          <button className='flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/[0.06] hover:text-slate-400 transition-all duration-150'>
+                          <Coins  size={16}/>
+                          </button>
+                          {/* LogOut Button */}
+                          <button 
+                          onClick={()=>{logout(),dispatch(setUserData(null ))}}
+                          className='flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/[0.06] hover:text-slate-400 transition-all duration-150  ' >
+                          <LogOut size={16}/>  
+                          </button>
+                        </div>
                       </div>
                     )
                     :
                     // When User in not Logedin then show login button
-                    <button className=''>
+                    <button className='w-full flex items-center justify-center gap-2 text-sm font-medium text-slate-200 bg-white/[0.05] border border-white/[0.08] rounded-xl px-[11px] cursor-pointer hover:bg-white/[0.08] transition-colors duration-150'>
                       Login
                     </button>
                   }
