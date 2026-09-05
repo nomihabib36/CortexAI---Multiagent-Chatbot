@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { PanelLeftIcon, PenSquare, Plus } from 'lucide-react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import  {getConversations} from '../features/getConversations.js'
 import  {createConversation} from '../features/createConversation.js'
-import  {addConversation, setConversation} from '../redux/store/conversationSlice.js'
-import { create } from 'axios';
+import  {addConversation, setConversation, setSelectedConversation} from '../redux/store/conversationSlice.js'
+
 export default function Sidebar() {
 
 
   //sidebar state
 const [collapsed, setCollapsed] = useState(false);
 
-
-// // create Conv
-// const handleCreateConv = async()=>{
-//     const {data} = await createConversation()
-//     dispatch(addConversation(data))
-//   }
   
   //for fetching Data
   const dispatch = useDispatch()
+  const {conversations, selectedConversation} = useSelector(state => state.conversation)
 useEffect(()=>{
   const getConv = async () =>{
     const data = await getConversations()
-    console.log(data);
     
     dispatch(setConversation(data))
     
@@ -32,12 +26,15 @@ useEffect(()=>{
   getConv()
 },[])
 
+//create COnversation and handle
 const handleCreateConv = async ()=>{
   const data = await createConversation()
-  console.log(data);
   
   dispatch(addConversation(data))
 }
+
+
+
 
 
 
@@ -76,10 +73,44 @@ const handleCreateConv = async ()=>{
                   </button>
 
           </div>
-                {/* Conversation List UI */}
-          <div className=''>
+                {/* Conversation */}
+                {conversations.length == 0 ? 
+                //When No Conversation
+                <div className='px-5 pt-4 pb-1.5 text=[10.5px] font-semibold uppercase tracking-widest text-slate-600'>
 
+                    No Recent Conversation
+                </div>
+                :
+                //When any Conversation
+                (
+                  
+                  <div className='px-5 pt-4 pb-1.5 text=[10.5px] font-semibold uppercase tracking-widest text-slate-600'>
+                Recents
           </div>
+                )}
+
+                {/* Conversation List UI*/}
+                <div className='flex-1 overflow-y-auto px-2.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
+                    {conversations.map((conv, i)=>{
+
+                      const isActive = selectedConversation?._id==conv?._id
+                      return (
+
+                        <div
+
+                        //// Set the clicked conversation as the selected conversation 
+                        onClick={()=>{
+                          dispatch(setSelectedConversation(conv));
+                        }}
+                        className={`flex items-center gap-2.5 cursor-pointer mb-0.5 px-3 py-2.5 rounded-[10px] border transition-color duration-150 
+                    ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18]"
+                    : "bg-transparent border-transparent bg-white"}`}>
+                          
+                        </div>
+                      )
+                    })}
+
+                </div>     
 
         
         </div>
