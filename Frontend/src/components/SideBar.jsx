@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { PanelLeftIcon, PenSquare, Plus } from 'lucide-react'
+import { MessageSquare, PanelLeftIcon, PenSquare, Plus } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux';
 import  {getConversations} from '../features/getConversations.js'
 import  {createConversation} from '../features/createConversation.js'
@@ -97,15 +97,18 @@ const handleCreateConv = async ()=>{
                       return (
 
                         <div
-
                         //// Set the clicked conversation as the selected conversation 
+                        
                         onClick={()=>{
                           dispatch(setSelectedConversation(conv));
                         }}
                         className={`flex items-center gap-2.5 cursor-pointer mb-0.5 px-3 py-2.5 rounded-[10px] border transition-color duration-150 
                     ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18]"
-                    : "bg-transparent border-transparent bg-white"}`}>
-                          
+                    : "bg-transparent border-transparent"}`}>
+                          <MessageSquare size={13}/>
+                          <span className={`text=[13px] font-medium truncate ${isActive ? "text-slate-100" : "text-slate-300"}`}>
+                            {conv?.title || "New Chat "}
+                          </span>
                         </div>
                       )
                     })}
