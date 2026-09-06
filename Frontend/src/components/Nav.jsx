@@ -16,13 +16,22 @@ const {messages} = useSelector((state)=>state.message)
 
   return (
     <>
-    {selectedConversation &&  
+
+    {/* if not selected any conv then not show conv detail or chat area */}
+    {selectedConversation && 
+    // Navbar 
     <div className="">
+        {/* icon */}
         <div className="">
             <MessageSquare/>
         </div>
+        {/* Title */}
         <div className="">
             {selectedConversation?.title || "New Chat"}
+        </div>
+        {/* Message Counter */}
+        <div className="">
+            
         </div>
 
     </div>

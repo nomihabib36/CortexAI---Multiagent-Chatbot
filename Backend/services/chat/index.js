@@ -1,6 +1,6 @@
 import express, { json } from 'express';
 import dotenv from 'dotenv';
-import connectDB from './config/db.js';
+import connectDB from './config/db.js'
 import router from './routers/chat.router.js';
 dotenv.config()
 
