@@ -61,15 +61,49 @@ if(collapsed){
         <Plus size={17}/>
       </button>
       {/* Conversation icon */}
-      <button 
-      
-      className='flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1'>
+      <div className='flex-1 overflow-y-auto px-2.5 pb[scrollbar-width:none] [&::-webkit-scrollbar]:hidden pt-5'>
+                    {conversations.map((conv, i)=>{
 
-      </button>
+                      const isActive = selectedConversation?._id==conv?._id
+                      return (
+
+                        <div
+                        //// Set the clicked conversation as the selected conversation 
+                        
+                        onClick={()=>{
+                          dispatch(setSelectedConversation(conv));
+                        }}
+                        className={`flex items-center gap-2.5 cursor-pointer mb-0.5 px-3 py-2.5 rounded-[10px] border transition-color duration-150 
+                    ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18]"
+                    : "bg-transparent border-transparent"}`}>
+                         <div className={`flex items-center justify-center shrink-0 w-[20px] h-[20px] rounded-lg transition-colors duration-150
+                    ${isActive ? "bg-indigo-500/15 text-indigo-400" :
+                       "bg-white/[0.05] text-slate-500"}    
+                        `}>
+                          <MessageSquare size={13}/>
+
+                      </div>
+                          
+                        </div>
+                      )
+                    })}
+
+      </div>  
+
       {/* image icon */}
-      <button className=''>
-
-      </button>
+      <div className='relative shrink-0'>
+                          {(userData?.avatar && !imageError) ? 
+                        <img
+                          className='w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25'
+                          src={userData?.avatar}
+                          alt={"image"}
+                          onError={()=>setImageError(true)} />
+                      :
+                        <div className='w-9 h-9 rounded-[10px] bg-white/[0.06] flex items-center justify-center '>
+                          <user size={15} className="text-slate-400"/>
+                        </div>  
+                      } 
+      </div>
     </div>
     
   )
@@ -145,7 +179,15 @@ if(collapsed){
                         className={`flex items-center gap-2.5 cursor-pointer mb-0.5 px-3 py-2.5 rounded-[10px] border transition-color duration-150 
                     ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18]"
                     : "bg-transparent border-transparent"}`}>
+
+                      {/* chat icon */}
+                      <div className={`flex items-center justify-center shrink-0 w-[28px] h-[28px] rounded-lg transition-colors duration-150
+                    ${isActive ? "bg-indigo-500/15 text-indigo-400" :
+                       "bg-white/[0.05] text-slate-500"}    
+                        `}>
                           <MessageSquare size={13}/>
+
+                      </div>
                           <span className={`text=[13px] font-medium truncate ${isActive ? "text-slate-100" : "text-slate-300"}`}>
                             {conv?.title || "New Chat "}
                           </span>
@@ -175,7 +217,7 @@ if(collapsed){
                           onError={()=>setImageError(true)} />
                       :
                         <div className='w-9 h-9 rounded-[10px] bg-white/[0.06] flex items-center justify-center '>
-                          <user size={15} className="text-slate-100"/>
+                          <user size={15} className="text-slate-400"/>
                         </div>  
                       } 
                         </div>
