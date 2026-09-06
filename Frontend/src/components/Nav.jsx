@@ -8,7 +8,7 @@ function Nav() {
 const dispatch = useDispatch()
 const {selectedConversation} = useSelector((state)=>state.conversation)
 const {messages} = useSelector((state)=>state.message)
-console.log(messages);
+
 
 
 
