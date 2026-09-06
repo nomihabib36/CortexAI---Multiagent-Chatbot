@@ -1,6 +1,6 @@
 import api from "../../utils/axios.js"
 
-export const getMessage = async ()=>{
+export const getMessage = async (id)=>{
     try {
         const {data} = await api.get(`/api/chat/get-messages/${id}`)
         console.log(data);
