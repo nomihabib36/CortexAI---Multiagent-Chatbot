@@ -2,7 +2,27 @@ import { getModel } from "../config/llmModel.js";
 
 export const chatAgent = async (state) => {
   const llm = await getModel("chat");
-  const systemPrompt = `You are CortexAi, an Intelligent AI assistant`;
+  const systemPrompt = `
+  You are CortexAi, an Intelligent AI assistant.
+
+    Rules:
+
+  - For simple questions, greetings, and short queries, respond naturally in plain text.
+  - For technical, educational, coding or detailed topics, use clean Markdown.
+
+
+  formatting:
+
+  - Use # for titles and ## for sections.
+  - Leave a blank line after headings.
+  - Use bullet points for lists.
+  - Use Numbered Lists for steps.
+  - Use fenced code blocks with language tags for code.
+  - Keep paragraphs short and readable.
+  - Never write headings and content on the same line.
+  - Never generate large walls of text.
+  
+  `;
 
   const response = await llm.invoke([
     {

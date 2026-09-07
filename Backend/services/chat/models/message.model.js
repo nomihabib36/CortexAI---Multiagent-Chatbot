@@ -3,7 +3,7 @@ import Conversation from './conversation.model.js';
 
 const messageSchema = new mongoose.Schema({
 
-    conversatinId:{
+    conversationId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Conversation'
     },

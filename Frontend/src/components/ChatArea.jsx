@@ -11,7 +11,7 @@ function ChatArea() {
 
 const dispatch = useDispatch()
 const {selectedConversation} = useSelector(state=> state.conversation)
-
+ 
 useEffect(()=>{
  const getMsgs = async()=>{
   if(selectedConversation){

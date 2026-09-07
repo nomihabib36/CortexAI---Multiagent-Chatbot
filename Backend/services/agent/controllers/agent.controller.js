@@ -3,11 +3,11 @@ import { graph } from '../graph/graph.js'
 
 export const agent = async (req,res)=>{
     try {
-        const {prompt} = req.body
+        const {prompt,conversationId} = req.body
         //Save Message Api from CHAT Service
-        await axios.post(`${process.env.CHAT_SERVICE/save-message}`,{
+        await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
             //Saving Message in that structure
-            conversationId, role:"user", content :"prompt"
+            conversationId, role:"user", content :prompt
         })
 
         //Called Graph - Start Graph from here
@@ -17,10 +17,21 @@ export const agent = async (req,res)=>{
         })
 
         const response = result.aiResponse
-        return res.statun(200).json({ResponseFromAgentServiceController:
-            `${response}`})
+
+        // Save ai response in db
+
+        await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
+            conversationId,role:"assistant", content:response
+        })
+
+
+        return res.status(200).json(response)
+        
         } catch (error) {
-        return res.statun(500).json({ErrorAgentServiceController:`${error}`})
+
+
+        console.log(error);
+        
         
     }
 }

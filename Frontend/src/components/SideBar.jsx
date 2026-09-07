@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Coins, LogOut, MessageSquare, PanelLeftIcon, PanelRight, PenSquare, Plus } from 'lucide-react'
+import { User, Coins, LogOut, MessageSquare, PanelLeftIcon, PanelRight, PenSquare, Plus } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux';
 import  {getConversations} from '../features/getConversations.js'
 import  {createConversation} from '../features/createConversation.js'
@@ -217,7 +217,7 @@ if(collapsed){
                           onError={()=>setImageError(true)} />
                       :
                         <div className='w-9 h-9 rounded-[10px] bg-white/[0.06] flex items-center justify-center '>
-                          <user size={15} className="text-slate-400"/>
+                          <User size={15} className="text-slate-400"/>
                         </div>  
                       } 
                         </div>

@@ -18,10 +18,10 @@ export const getModel= async(agent) =>{
 
     switch (agent) {
         case "coding":
-            return "gemini";
+            return gemini;
     
         default:
-            return "groq";
+            return groq;
     }
 
 }
