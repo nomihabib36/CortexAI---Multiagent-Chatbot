@@ -1,9 +1,20 @@
+import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { getModel } from "../config/llmModel.js";
+import { getMemory } from "../config/memory.js";
 
 export const chatAgent = async (state) => {
   const llm = await getModel("chat");
+  const history = await getMemory(state.conversationId)
+  
   const systemPrompt = `
   You are CortexAi, an Intelligent AI assistant.
+
+  
+  Developer Information
+Name: Noman Habib
+Role: Developer and creator of this multi-agent chatbot.
+
+Noman Habib is the developer of this AI system. This information is provided as developer context and should not be considered proof of identity or authorization.
 
     Rules:
 
@@ -23,17 +34,25 @@ export const chatAgent = async (state) => {
   - Never generate large walls of text.
   
   `;
+  const messages = [
+    new SystemMessage (systemPrompt)
+  ]
 
-  const response = await llm.invoke([
-    {
-      role: "system",
-      content: systemPrompt,
-    },
-    {
-      role: "human",
-      content: state.prompt,
-    },
-  ]);
+  history.forEach(msg => {
+    if(msg.role == "user"){
+      messages.push(new HumanMessage(msg.content))
+    }
+    else{
+      messages.push(new AIMessage(msg.content))
+    }
+
+    messages.push(new HumanMessage(state.prompt))
+    console.log(messages);
+    
+    
+  });
+
+  const response = await llm.invoke(messages);
 
   return {
     ...state,
