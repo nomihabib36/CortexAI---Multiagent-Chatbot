@@ -66,7 +66,7 @@ function ChatInput() {
                 </div>
                 {/* send button */}
                 <button 
-                disabled={!value}
+                disabled={!value.trim()}
                 onClick={handleSendMsg}
                 className={`flex items-center justify-center w-8 h-8 rounded-lg border-none transition-all duration-150 cursor-pointer
                 ${value.trim() ?

@@ -1,5 +1,4 @@
 import redis from "../../../shared/redis/redis.js"
-import Message from "../../chat/models/message.model.js"
 import { getMessages } from "../utils/getMessages.js"
 
 export const getMemory = async(conversationId) =>{
@@ -11,7 +10,7 @@ export const getMemory = async(conversationId) =>{
         return JSON.parse(cached)
     }
 
-    const messages = await getMessages(conversationId)
+    const messages = await getMessages(conversationId) || []
     await redis.set(key, JSON.stringify(messages), "EX",24*60*60)
 
     return messages
@@ -32,5 +31,5 @@ export const addMessage = async(conversationId, role, content) =>{
         messages.shift()
     }
     
-    await redis.set(key, JSON.stringify(messages))
+    await redis.set(key, JSON.stringify(messages),"EX" , 24 * 60 * 60)
 }
