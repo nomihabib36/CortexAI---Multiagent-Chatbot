@@ -2,7 +2,16 @@ import { getModel } from "../config/llmModel.js";
 
 export const router = async (state) => {
 //using llm model to decide transfer to which agent
+
+if(state.agent && state.agent!=="auto"){
+    return{
+        ...state,
+        agent:state.agent
+    }
+}
+
 const llm = await getModel("router");
+
 const prompt = `You are an agent router.
 
 Available agents:
