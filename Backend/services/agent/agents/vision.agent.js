@@ -1,6 +1,7 @@
 export const visionAgent = async(state)=>{
- return {
+return {
     ...state,
-    aiResponse: "vision or image agent coming soon",
-  };
+    aiResponse: "Vision agent agent coming soon",
+  };    
+  
 }
