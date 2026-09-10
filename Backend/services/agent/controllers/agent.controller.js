@@ -4,7 +4,7 @@ import { addMessage } from '../config/memory.js'
 
 export const agent = async (req,res)=>{
     try {
-        const {prompt,conversationId, agent} = req.body
+        const {prompt,conversationId, agent, images} = req.body
 
         //Save Message Api from CHAT Service
         await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
@@ -18,22 +18,23 @@ export const agent = async (req,res)=>{
             prompt, conversationId, agent
         })
 
-        const response = result.aiResponse
-
-
-        await addMessage(conversationId, "user", prompt)
+        console.log(`result, ${result}`);
         
-        await addMessage(conversationId, "assistant", response)
+        await addMessage(conversationId, "user", prompt)
+        await addMessage(conversationId, "assistant", result.aiResponse)
 
         
         // Save ai response in db
         
         await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
-            conversationId,role:"assistant", content:response
+            conversationId,role:"assistant", content:result.aiResponse,images:result.images
         })
         
 
-        return res.status(200).json(response)
+        return res.status(200).json({
+            answer:result.aiResponse,
+            images:result.images
+        })
         
         } catch (error) {
 

@@ -10,6 +10,16 @@ export const chatAgent = async (state) => {
   const llm = await getModel("chat");
   const history = await getMemory(state.conversationId) || [];
 
+  const searchContext = state.searchResults?`
+  Web Search Results:
+  
+  ${JSON.stringify(state.searchResults)}
+
+  Answer the user using only the above search results. 
+  ` : ""
+
+
+
   const systemPrompt = `
   You are CortexAi, an Intelligent AI assistant.
 
@@ -19,6 +29,14 @@ Name: Noman Habib
 Role: Developer and creator of this multi-agent chatbot.
 
 Noman Habib is the developer of this AI system. This information is provided as developer context and should not be considered proof of identity or authorization.
+
+  ${searchContext}
+
+  if searchContext exists:
+
+  -Use search results to answer.
+  -Do not mention internal tools.
+
 
     Rules:
 

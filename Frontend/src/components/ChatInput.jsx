@@ -46,7 +46,8 @@ function ChatInput() {
       const data = await sendMessage(payload)
       dispatch(addMessage(
         {role:"assistant",
-        content:data
+        content:data.answer,
+        images:data.images
         }))
 
    console.log(data);
