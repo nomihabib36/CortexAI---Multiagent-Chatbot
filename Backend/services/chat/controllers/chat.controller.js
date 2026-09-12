@@ -59,7 +59,7 @@ export const updateConversation = async (req,res)=>{
 export const saveMessage = async (req,res)=>{
     try {
         //get conversation id, role, content from frontend
-        const {conversationId, role, content, images} = req.body;
+        const {conversationId, role, content, images, artifacts} = req.body;
 
 
         //Save Message
@@ -67,7 +67,8 @@ export const saveMessage = async (req,res)=>{
             conversationId,
             role,
             content,
-            images
+            images,
+            artifacts
         })
 
         return res.status(200).json({message:`Save Message Successfull ${message}`})
