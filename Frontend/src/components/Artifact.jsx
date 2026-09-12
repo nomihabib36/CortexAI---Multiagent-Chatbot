@@ -103,16 +103,10 @@ const handleCopy = async()=>{
                     </div>
               </div>
 
-              
-              <div 
-              onClick={handleCopy}
-              className='flex items-center gap-1 shrink-0'>
-                  <button className='flex items-center gap-1.5 px-2.5 py-1.5 text-{11px} font-medium text-slate-400 hover:text-slate-200 hover:bg-white/[0.05] rounded-lg transition-colors duration-150 bg-transparent border-none cursor-pointer'>
 
-                 {copied ? <Check size={15}/> : <Copy size={15}/> }
-                  </button>
-              </div>
-              {canPreview &&  <div className='flex items-center gap-1 bg-white/[0.04] border border-white/[0.06] p-1 rounded-lg'>
+              {canPreview &&  
+              
+              <div className='flex items-center gap-1 bg-white/[0.04] border border-white/[0.06] p-1 rounded-lg'>
                 <button 
                 onClick={()=>setTab("code")}
                 className={`flex items-center gap-1.5 px-2.5 py-1 text-{11px} font-medium rounded-md transition-colors duration-150
@@ -136,7 +130,17 @@ const handleCopy = async()=>{
             </div>
 
 
-            {tab==="code" &&  <div className='flex h-auto border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0'>
+            {tab==="code" &&
+            
+              
+
+
+
+
+
+            <div className='flex h-auto border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0'>
+
+
 
             {
               artifacts[0]?.files?.map((f,index)=>(
@@ -150,8 +154,17 @@ const handleCopy = async()=>{
 
                 </button>
               ))
-            }
+            } 
 
+            {/* For copy code */}
+              <div 
+              onClick={handleCopy}
+              className='flex items-center gap-1 shrink-0'>
+                  <button className='flex items-center gap-1.5 px-2.5 py-1.5 text-{11px} font-medium text-slate-400 hover:text-slate-200 hover:bg-white/[0.05] rounded-lg transition-colors duration-150 bg-transparent border-none cursor-pointer'>
+
+                 {copied ? <Check size={15}/> : <Copy size={15}/> }
+                  </button>
+              </div>
             </div>}
 
            
