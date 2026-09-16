@@ -16,7 +16,7 @@ export const searchAgent = async(state)=>{
  } catch (error) {
     return {
        ...state,
-       searchResults:[],
+       searchResults:`❌ Failed to Generate Search Response`,
        images:[]
      };
     

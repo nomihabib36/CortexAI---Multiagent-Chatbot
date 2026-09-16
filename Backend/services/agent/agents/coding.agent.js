@@ -1,8 +1,8 @@
 import { getModel } from "../config/llmModel.js";
 
 export const codingAgent = async (state) => {
-
-  const intentLlm = await getModel("intent")
+  try {
+    const intentLlm = await getModel("intent")
   const llm = await getModel("coding")
 
   const intentRes = await intentLlm.invoke(`
@@ -143,6 +143,16 @@ const res = await llm.invoke(`
     ...state,
     aiResponse: data,
     artifacts:[]
-
+    
   }
-};
+} catch (error) {
+    return {
+      ...state,
+      aiResponse:`❌ Failed to Generate Code`,
+      artifacts:[]
+    
+  }
+
+  
+}
+}
