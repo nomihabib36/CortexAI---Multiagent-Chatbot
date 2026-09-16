@@ -38,6 +38,13 @@ Use React / Next.js / Vue ONLY if explicitly requested.
 
 Rules:
 
+- Keep HTML concise.
+- Keep CSS concise.
+- Keep JavaScript concise.
+- Do not add unnecessary comments.
+- Use a maximum of 3 sample items.
+- Use maximum 2-3 images.
+- Do not repeat code.
 - Resonsive
 - Modern UI
 - CSS Variables
@@ -146,6 +153,8 @@ const res = await llm.invoke(`
     
   }
 } catch (error) {
+  console.log(error);
+  
     return {
       ...state,
       aiResponse:`❌ Failed to Generate Code`,
