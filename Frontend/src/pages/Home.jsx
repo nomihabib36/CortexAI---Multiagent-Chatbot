@@ -14,7 +14,7 @@ function Home() {
     
     const {userData} = useSelector(state=>state.user)
     const dispatch = useDispatch()
-    console.log(userData);
+    // console.log(userData);
 
     const handleLogin = async (token)=>{
         try {
@@ -31,9 +31,9 @@ function Home() {
       const googleLogin = async() =>{
         const data = await signInWithPopup(auth, googleprovider)
         const token = await data.user.getIdToken()
-        console.log(`google login token ${ token}`);
+        // console.log(`google login token ${ token}`);
         await handleLogin(token)    
-        console.log(`data = ${data}`);
+        // console.log(`data = ${data}`);
         
       }
   return (

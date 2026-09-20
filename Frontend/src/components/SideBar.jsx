@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { User, Coins, LogOut, MessageSquare, PanelLeftIcon, PanelRight, PenSquare, Plus } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux';
 import  {getConversations} from '../features/getConversations.js'
@@ -6,6 +6,7 @@ import  {createConversation} from '../features/createConversation.js'
 import  {addConversation, setConversation, setSelectedConversation} from '../redux/store/conversationSlice.js'
 import  {setUserData} from '../redux/store/userSlice.js'
 import logout from '../features/logout.js';
+import BillingDrawer from './BillingDrawer.jsx';
 
 export default function Sidebar() {
 
@@ -14,6 +15,8 @@ export default function Sidebar() {
 const [collapsed, setCollapsed] = useState(false);
   //error in image state
 const [imageError, setImageError] = useState(false)
+
+const [showBilling, setShowBilling] = useState(false)
   
 const dispatch = useDispatch()
 
@@ -41,7 +44,6 @@ const handleCreateConv = async ()=>{
   
   dispatch(addConversation(data))
 }
-
 
 
 
@@ -227,15 +229,27 @@ if(collapsed){
                             {userData?.name || "user"}
                             </p>
                           <p className='text-[11px] text-slate-600 mt-px'>
-                            {"Free Plan  "}
+                            {userData?.plan || "Free Plan  "}
                             </p>
 
                         </div>
+                            
+
                         {/* Credit & Logout Button */}
                         <div className='flex gap-1'>
+
+                            {/* test payment btn
+                          <button 
+                          onClick={handlePayment}
+                          className='lex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/[0.06] hover:text-slate-400 transition-all duration-150'>
+                            <Parentheses size={16}/>
+                          </button> */}
+
+
                           {/* Credit Button */}
                           <button className='flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/[0.06] hover:text-slate-400 transition-all duration-150'>
-                          <Coins  size={16}/>
+                          <Coins  size={16}
+                          onClick={()=>{setShowBilling(true)}}/>
                           </button>
                           {/* LogOut Button */}
                           <button 
@@ -254,6 +268,12 @@ if(collapsed){
                   }
           </div>
         </div>
+
+        <BillingDrawer
+        open={showBilling}
+        onClose={()=>setShowBilling(false)}
+
+        />
     </div>
   )
 }
