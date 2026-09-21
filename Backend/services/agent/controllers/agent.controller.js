@@ -5,6 +5,7 @@ import { addMessage } from '../config/memory.js'
 export const agent = async (req,res)=>{
     try {
         const {prompt,conversationId, agent, images, artifacts} = req.body
+        const userId = req.headers["x-user-id"]
 
         //Save Message Api from CHAT Service
         await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
@@ -15,7 +16,7 @@ export const agent = async (req,res)=>{
         //Called Graph - Start Graph from here
 
         const result = await graph.invoke({
-            prompt, conversationId, agent
+            prompt, conversationId, agent, userId
         })
 
         console.log(`result, ${result}`);
