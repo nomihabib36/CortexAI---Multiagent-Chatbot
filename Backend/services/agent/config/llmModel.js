@@ -11,7 +11,7 @@ const groq = new ChatGroq({
 })
 
 const gemini = new ChatGoogleGenerativeAI ({
-    model: "gemini-3.6-flash"
+    model: "gemini-3.5-flash"
 })
 
 

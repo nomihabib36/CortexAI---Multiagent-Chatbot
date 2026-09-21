@@ -73,8 +73,7 @@ Noman Habib is the developer of this AI system. This information is provided as 
 
   });
   messages.push(new HumanMessage(state.prompt));
-  console.log(messages);
-
+  
   const response = await llm.invoke(messages);
 
   await deductCredits(state.userId, "chat")

@@ -7,6 +7,7 @@ export const agent = async (req,res)=>{
         const {prompt,conversationId, agent, images, artifacts} = req.body
         const userId = req.headers["x-user-id"]
         const file = req.file
+        console.log("file:", file)
 
         //Save Message Api from CHAT Service
         await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
@@ -20,7 +21,7 @@ export const agent = async (req,res)=>{
             prompt, conversationId, agent, userId, file
         })
 
-        console.log(`result, ${result}`);
+        console.log("result:" ,result);
         
         await addMessage(conversationId, "user", prompt)
         await addMessage(conversationId, "assistant", result.aiResponse)
@@ -43,7 +44,7 @@ export const agent = async (req,res)=>{
 
 
         console.log(error);
-        
+        return res.status(500).json({error:error})
         
     }
 }

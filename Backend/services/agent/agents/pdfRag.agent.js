@@ -8,12 +8,12 @@ import { deductCredits } from '../utils/deductCredits.js'
 
 export const pdfRag = async(state)=>{
     try {
-        const buffer = fs.readFileSync(state.file.path)
+        const buffer =  fs.readFileSync(state.file.path)
         const pdf = new PDFParse({
             data: buffer
         })
-        const result = pdf.getText()
-        const text = await result.text
+        const result = await pdf.getText()
+        const text =result.text
 
         const splitter = new RecursiveCharacterTextSplitter({
             chunkSize: 1000,
@@ -26,7 +26,7 @@ export const pdfRag = async(state)=>{
         const relevantDocs = await store.similaritySearch(
             state.prompt, 5
         )
-        const context = relevantDocs.map(d=>d.pageContent).join("/n/n")
+        const context = relevantDocs.map(d=>d.pageContent).join("\n\n")
         const llm = await getModel("pdfRag")
         const messages = [
             new SystemMessage(`
@@ -57,14 +57,14 @@ export const pdfRag = async(state)=>{
             aiResponse:response.content
         }
     } catch (error) {
-        console.log(error);
         
+        console.log(error)
         return{
             ...state,
             aiResponse:`Failed to Analyze PDF`
         }
         
     }finally{
-        fs.unlinkSync(state.file.path)
+    fs.unlinkSync(state.file.path)
     }
 }

@@ -1,6 +1,5 @@
-import { imageAnalyzer } from "../agents/imageAnalyzer.agent.js";
-import { pdfRag } from "../agents/pdfRag.agent.js";
 import { getModel } from "../config/llmModel.js";
+import { agent } from "../controllers/agent.controller.js";
 
 export const router = async (state) => {
 //using llm model to decide transfer to which agent
@@ -11,18 +10,19 @@ if(state.agent && state.agent!=="auto"){
         agent:state.agent
     }
 }
+console.log("file in router:", state.file.mimetype)
 
 if(state.file.mimetype === "application/pdf"){
     return{
         ...state,
-        agent:pdfRag
+        agent:"pdfRag"
     }
 }
 
-if(state.file.mimetype.startsWith === "image/"){
+if(state.file.mimetype.startsWith("image/")){
     return{
         ...state,
-        agent:imageAnalyzer
+        agent:"imageAnalyzer"
     }
 }
 

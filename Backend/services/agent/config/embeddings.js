@@ -3,5 +3,5 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const embeddings = new GoogleGenerativeAIEmbeddings({
-    model: "text-embedding-001"
+    model: "gemini-embedding-001"
 })
