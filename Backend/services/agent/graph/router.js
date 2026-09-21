@@ -1,3 +1,5 @@
+import { imageAnalyzer } from "../agents/imageAnalyzer.agent.js";
+import { pdfRag } from "../agents/pdfRag.agent.js";
 import { getModel } from "../config/llmModel.js";
 
 export const router = async (state) => {
@@ -7,6 +9,20 @@ if(state.agent && state.agent!=="auto"){
     return{
         ...state,
         agent:state.agent
+    }
+}
+
+if(state.file.mimetype === "application/pdf"){
+    return{
+        ...state,
+        agent:pdfRag
+    }
+}
+
+if(state.file.mimetype.startsWith === "image/"){
+    return{
+        ...state,
+        agent:imageAnalyzer
     }
 }
 

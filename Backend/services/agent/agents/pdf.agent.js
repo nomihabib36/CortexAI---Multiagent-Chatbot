@@ -44,6 +44,7 @@ export const pdfAgent = async (state) => {
     await deductCredits(state.userId, "pdf")
     const filename = `pdf-${Date.now()}.pdf`
     const pdfBuffer = await generatePdf(data)
+    
     await uploadToS3(filename,pdfBuffer,"application/pdf")
     const downloadUrl = await getFromS3(filename,24*60)
 

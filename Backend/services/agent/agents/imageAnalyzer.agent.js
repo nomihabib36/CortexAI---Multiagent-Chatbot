@@ -1,0 +1,57 @@
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
+import { getModel } from "../config/llmModel.js";
+import fs from "fs";
+import { deductCredits } from "../utils/deductCredits.js";
+
+export const imageAnalyzer = async (state) => {
+  try {
+    const llm = await getModel("imageAnalyzer");
+    const imageBuffer = new fs.readFile(state.file.path);
+    const base64Image = imageBuffer("base64");
+
+    const messages = [
+      new SystemMessage(`
+                You are CortexAI image Analyzer Agent.
+
+    Rules:
+
+    - Analyze Only the uploaded image.
+    - Answer the user's question accurately.
+    - If text exists in the image, extract it.
+    - If charts or tables exists, explain them.
+    - Use Markdown when helpful.
+    - Do Not Hallucinate`),
+      new HumanMessage({
+        content: [
+          {
+            type: "text",
+            text: state.prompt || "analye the image",
+          },
+          {
+            type: "image_url",
+            "image_url": {
+                url:`data: ${state.file.mimetype};base64,${base64Image}`
+            }
+          },
+        ],
+      }),
+    ];
+
+    const response = await llm.invoke(messages)
+    await deductCredits(state.userId, "vision")
+
+    return{
+        ...state,
+        aiResponse:response.content
+    }
+  } catch (error) {
+    console.log(error);
+    return{
+        ...state,
+        aiResponse:`Failed to Analyze image`
+    }
+    
+  }finally{
+        fs.unlink(state.file.path)
+  }
+}
