@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { User, Coins, LogOut, MessageSquare, PanelLeftIcon, PanelRight, PenSquare, Plus } from 'lucide-react'
+import { User, Coins, LogOut, MessageSquare, PanelLeftIcon, PanelRight, PenSquare, Plus, Menu, X } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux';
 import  {getConversations} from '../features/getConversations.js'
 import  {createConversation} from '../features/createConversation.js'
@@ -17,6 +17,8 @@ const [collapsed, setCollapsed] = useState(false);
 const [imageError, setImageError] = useState(false)
 
 const [showBilling, setShowBilling] = useState(false)
+
+const [mobileOpen, setMobileOpen] = useState(false)
   
 const dispatch = useDispatch()
 
@@ -49,6 +51,8 @@ const handleCreateConv = async ()=>{
 
 if(collapsed){
   return (
+
+
     <div className='hidden lg:flex flex-col items-center w-[56px] h-screen bg-[#0d0f14] border-r border-white/[0.06] py-4 gap-1 shrink-0'>
       {/* Panel Button */}
       <button
@@ -113,8 +117,22 @@ if(collapsed){
 
 
   return (
-    // Main container
-    <div className='fixed lg:static inset-y-0 left-0 z-50 w-[270px] h-screen shrink-0 bg-[#0d0f14] border-r border-white/[0.06]'>
+
+
+    <>
+ {/* hamburger for mobile */}
+     <button
+    onClick={()=>setMobileOpen(true)}
+    className='lg:hidden fixed top-3.5 left-4 z-50 flex items-center justify-center w-8 h-8 rounded-lg bg-[#0d0f14] border border-white/[0.06] text-slate-400 hover:text-slate-200 transition-colors duration-150 cursor-pointer'>
+      <Menu size={14}/>
+    </button>
+
+    {mobileOpen && <div onClick={()=>setMobileOpen(false)} className='lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'/>}
+    {/* Main Container */}
+    <div className={`fixed lg:static inset-y-0 left-0 z-50 w-[270px] h-screen shrink-0 bg-[#0d0f14] border-r border-white/[0.06] transition-transform duration-250
+      ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+     
+   
 
         <div className='flex flex-col h-full'>
                 {/* Header */}
@@ -125,6 +143,12 @@ if(collapsed){
                 >
                 <PanelLeftIcon/>
                 </div>
+
+                <button 
+                onClick={()=>setMobileOpen(false)} 
+                className='lg:hidden flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer' >
+                  <X size={14}/>
+                </button>
                       {/* App Title */}
                 <span className='text-[16px] font-semibold text-slate-100 tracking-tight flex-1'>
                 CortexAi
@@ -275,5 +299,6 @@ if(collapsed){
 
         />
     </div>
+    </>
   )
 }

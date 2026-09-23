@@ -10,7 +10,7 @@ if(state.agent && state.agent!=="auto"){
         agent:state.agent
     }
 }
-console.log("file in router:", state.file.mimetype)
+// console.log("file in router:", state.file.mimetype)
 
 if(state.file.mimetype === "application/pdf"){
     return{
