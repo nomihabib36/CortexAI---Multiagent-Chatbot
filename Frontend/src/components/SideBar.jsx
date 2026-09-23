@@ -262,14 +262,6 @@ if(collapsed){
                         {/* Credit & Logout Button */}
                         <div className='flex gap-1'>
 
-                            {/* test payment btn
-                          <button 
-                          onClick={handlePayment}
-                          className='lex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/[0.06] hover:text-slate-400 transition-all duration-150'>
-                            <Parentheses size={16}/>
-                          </button> */}
-
-
                           {/* Credit Button */}
                           <button className='flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/[0.06] hover:text-slate-400 transition-all duration-150'>
                           <Coins  size={16}
@@ -293,12 +285,13 @@ if(collapsed){
           </div>
         </div>
 
-        <BillingDrawer
+       
+    </div>
+     <BillingDrawer
         open={showBilling}
         onClose={()=>setShowBilling(false)}
 
         />
-    </div>
     </>
   )
 }

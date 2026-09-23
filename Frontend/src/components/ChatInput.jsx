@@ -39,7 +39,10 @@ function ChatInput() {
     formData.append("prompt",value.trim())
     formData.append("conversationId",conversation?._id)
     formData.append("agent",selectedAgent.toLowerCase())
-    formData.append("file",selectedFile)
+    if(selectedFile){
+      formData.append("file",selectedFile)
+
+    }
 
    
 
