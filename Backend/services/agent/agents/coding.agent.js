@@ -1,8 +1,10 @@
+import { checkAgentLimit } from "../config/agentLimit.js";
 import { getModel } from "../config/llmModel.js";
 import { deductCredits } from "../utils/deductCredits.js";
 
 export const codingAgent = async (state) => {
   try {
+    await checkAgentLimit(state.userId,"coding")
     const intentLlm = await getModel("intent");
     const llm = await getModel("coding");
 
@@ -183,12 +185,12 @@ ${state.prompt}
       artifacts: [],
     };
   } catch (error) {
-    console.log(error);
 
-    return {
+   console.log(error); 
+      return {
       ...state,
-      aiResponse: `❌ Failed to Generate Code`,
-      artifacts: [],
+      aiResponse: error?.data.message || `❌Failed to Generate Code`,
+      artifacts: []
     };
   }
 };

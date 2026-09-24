@@ -3,9 +3,11 @@ import { getModel } from "../config/llmModel.js";
 import { uploadToS3 } from "../utils/uploadToS3.js";
 import { getFromS3 } from "../utils/getFromS3.js";
 import { deductCredits } from "../utils/deductCredits.js";
+import { checkAgentLimit } from "../config/agentLimit.js";
 
 export const visionAgent = async (state) => {
   try {
+    await checkAgentLimit(state.userId,"vision")
     const llm = await getModel("image");
     const res = await llm.invoke(`
             You are an elite AI image prompt engineer.
@@ -50,10 +52,10 @@ export const visionAgent = async (state) => {
 ⏳ Link Expires in 24 hours.`,
     };
   } catch (error) {
-    console.log(error);
-    return {
+      console.log(error); 
+      return {
       ...state,
-      aiResponse: "❌ Failed to Generate image",
+      aiResponse: error?.data.message || `❌Failed to Generate Image`
     };
   }
 };
