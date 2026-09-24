@@ -3,10 +3,10 @@ import { deductCredits } from "../utils/deductCredits.js";
 
 export const codingAgent = async (state) => {
   try {
-    const intentLlm = await getModel("intent")
-  const llm = await getModel("coding")
+    const intentLlm = await getModel("intent");
+    const llm = await getModel("coding");
 
-  const intentRes = await intentLlm.invoke(`
+    const intentRes = await intentLlm.invoke(`
     You are an intent classifier.
 
   Return ONLY one of these values.
@@ -20,12 +20,12 @@ export const codingAgent = async (state) => {
   DOCUMENTATION
 
   User Request:
-  ${state.prompt}`)
+  ${state.prompt}`);
 
-  const intent = intentRes.content
+    const intent = intentRes.content;
 
-  if(intent == "CODE_GENERATION"){
-    const prompt = `
+    if (intent == "CODE_GENERATION") {
+      const prompt = `
     You are CortexAI Coding Agent.
 
 Generate the requested project.
@@ -97,26 +97,54 @@ User Request:
 
 ${state.prompt}
 
-    `
-    const res = await llm.invoke(prompt)
-    const data = JSON.parse(res.content)
-    await deductCredits(state.userId, "coding")    
+    `;
+      const res = await llm.invoke(prompt);
 
-    return {
-    ...state,
-    aiResponse: "Code Generated Successfully.",
-    artifacts:[{
-      id: Date.now(),
-      type: "Project",
-      files: data.files || [],
-      title: state.prompt
-    }]
-  };
+      //Fix JSON Response
+      const safeParseJSON = (raw) => {
+        let text = raw.trim();
 
-  
-}
+        // Strip ```json ... ``` or ``` ... ``` wrappers
+        const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+        if (fenceMatch) {
+          text = fenceMatch[1].trim();
+        }
 
-const res = await llm.invoke(`
+        // Fallback: grab from first { to last } in case of stray text
+        const firstBrace = text.indexOf("{");
+        const lastBrace = text.lastIndexOf("}");
+        if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+          text = text.slice(firstBrace, lastBrace + 1);
+        }
+
+        // return JSON.parse(text);
+        let data;
+        try {
+          data = safeParseJSON(res.content);
+        } catch (parseErr) {
+          console.log("JSON parse failed, raw output:", res.content);
+          throw new Error("Model returned invalid JSON");
+        }
+      };
+
+      const data = JSON.parse(res.content);
+      await deductCredits(state.userId, "coding");
+
+      return {
+        ...state,
+        aiResponse: "Code Generated Successfully.",
+        artifacts: [
+          {
+            id: Date.now(),
+            type: "Project",
+            files: data.files || [],
+            title: state.prompt,
+          },
+        ],
+      };
+    }
+
+    const res = await llm.invoke(`
 
         The user's request is:
 
@@ -144,27 +172,23 @@ const res = await llm.invoke(`
 
 
     ${state.prompt}
-  `)
+  `);
 
-  const data = res.content
-  await deductCredits(state.userId, "coding")
+    const data = res.content;
+    await deductCredits(state.userId, "coding");
 
-  return {
-    ...state,
-    aiResponse: data,
-    artifacts:[]
-    
-  }
-} catch (error) {
-  console.log(error);
-  
     return {
       ...state,
-      aiResponse:`❌ Failed to Generate Code`,
-      artifacts:[]
-    
-  }
+      aiResponse: data,
+      artifacts: [],
+    };
+  } catch (error) {
+    console.log(error);
 
-  
-}
-}
+    return {
+      ...state,
+      aiResponse: `❌ Failed to Generate Code`,
+      artifacts: [],
+    };
+  }
+};

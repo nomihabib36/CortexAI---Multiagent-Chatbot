@@ -1,7 +1,7 @@
 import { Code2, File, FileText, Globe, Icon, Image, ImageIcon, MessageSquare, Mic, Paperclip, Presentation, Send, X, Zap } from 'lucide-react'
 import  {  useState } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
-import {addMessage, setArtifacts, setMessage} from '../redux/store/messageSlice.js'
+import {addMessage, setArtifacts, setIsLoading, setMessage} from '../redux/store/messageSlice.js'
 import sendMessage from '../features/sendMessage.js'
 import { createConversation } from '../features/createConversation.js'
 import { addConversation, setConvTitle, setSelectedConversation } from '../redux/store/conversationSlice.js'
@@ -21,6 +21,7 @@ function ChatInput() {
  
   
   const handleSendMsg = async ()=>{
+    dispatch(setIsLoading(true))
     let conversation = selectedConversation
     if(!conversation){
       const conv = await createConversation()
@@ -52,6 +53,7 @@ function ChatInput() {
     }))
     setValue("")
       const data = await sendMessage(formData)
+      dispatch(setIsLoading(false))
       setSelectedFile(null)
 
       dispatch(setArtifacts(data.artifacts || []))

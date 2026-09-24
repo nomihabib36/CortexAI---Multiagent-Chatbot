@@ -5,7 +5,8 @@ const messageSlice = createSlice({
 
     initialState:{  
         messages:[],
-        artifacts:[]
+        artifacts:[],
+        isLoading:false
     },
 
     reducers:{
@@ -19,11 +20,15 @@ const messageSlice = createSlice({
         },
         setArtifacts:(state, action)=>{
             state.artifacts = action.payload
+        },
+        setIsLoading:(state, action)=>{
+            state.isLoading = action.payload
         }
+
     }
     
 })
 
-export const {setMessage, addMessage, setArtifacts} = messageSlice.actions
+export const {setMessage, addMessage, setArtifacts, setIsLoading} = messageSlice.actions
 
 export default messageSlice.reducer
