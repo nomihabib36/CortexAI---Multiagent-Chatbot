@@ -57,6 +57,8 @@ export default function Sidebar() {
     const data = await createConversation();
 
     dispatch(addConversation(data));
+      dispatch(setSelectedConversation(data));
+
   };
 
   if (collapsed) {
@@ -178,9 +180,9 @@ export default function Sidebar() {
             {/* newChat icon */}
             <button
               className="flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-color duration-150 bg-transparent border-none cursor-pointer "
-              onClick={() => dispatch(setSelectedConversation(null))}
+              onClick={handleCreateConv}
             >
-              <PenSquare size={14} onClick={handleCreateConv} />
+              <PenSquare size={14}  />
             </button>
           </div>
           {/* New Chat button */}

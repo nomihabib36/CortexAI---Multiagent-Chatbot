@@ -107,7 +107,15 @@ const agents = [
       
 
     ]
-  
+  const handleKeyDown = (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault()
+
+    if (!value.trim() || isLoading) return
+
+    handleSendMsg()
+  }
+}
 
   return (
     <div className='w-full overflow-hidden px-3 md:px-5 py-4 border-t border-white/[0.06] bg-[#0d0f14]'>
@@ -183,6 +191,7 @@ const agents = [
             <textarea 
             placeholder='Ask Anything'
             onChange={(e)=>setValue(e.target.value)}
+            onKeyDown={handleKeyDown}
             value={value}
             className='w-full bg-transparent outline-none resize-none text-[14px] text-slate-200 placeholder:text-slate-600 leading-relaxed [scrollbar-width:none] [&::-webkit-scrollbar]:hidden disabled:opacity-50 '
             rows={3}
