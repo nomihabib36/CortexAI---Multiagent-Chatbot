@@ -12,7 +12,7 @@ app.use("/", router)
 app.get("/",(req,res)=>{
     res.json({"message":"Welcome to Auth"})
 });
-app.use("/", router)
+// app.use("/", router)
 
 app.listen(port,()=>{
     console.log(`Auth is Running on PORT:${port}`);

@@ -34,7 +34,7 @@ app.get("/payment/success", (req, res) => {
     const { tracker } = req.query; // confirm actual param name first
 
     // redirect to frontend, passing tracker along
-    return  res.redirect(`http://localhost:5173/payment/success?tracker=${tracker}`);
+    return  res.redirect(`${process.env.FRONTEND_URL}/payment/success?tracker=${tracker}`);
     // console.log("Query:", req.query)
 
     // res.send("Payment successful");
